@@ -1,37 +1,66 @@
-// Wait for the DOM to fully load
-document.addEventListener('DOMContentLoaded', () => {
-    // Define the correct answer
-    const correctAnswer = '4';
+// Sample quiz data
+const quizData = [
+  {
+    question: "What is the capital of France?",
+    options: ["Berlin", "Madrid", "Paris", "Rome"],
+    correctAnswer: "Paris"
+  },
+  {
+    question: "Which planet is known as the Red Planet?",
+    options: ["Earth", "Mars", "Jupiter", "Saturn"],
+    correctAnswer: "Mars"
+  }
+  // Add more questions as needed
+];
+
+// Function to load a question
+function loadQuestion(index) {
+  const questionData = quizData[index];
+  const questionElement = document.getElementById('question');
+  const optionsElement = document.getElementById('options');
+
+  questionElement.textContent = questionData.question;
+  optionsElement.innerHTML = '';
+
+  questionData.options.forEach((option, i) => {
+    const optionElement = document.createElement('input');
+    optionElement.type = 'radio';
+    optionElement.name = 'answer';
+    optionElement.value = option;
+    const label = document.createElement('label');
+    label.textContent = option;
     
-    // Select DOM elements
-    const submitButton = document.getElementById('submit-answer');
-    const feedback = document.getElementById('feedback');
+    optionsElement.appendChild(optionElement);
+    optionsElement.appendChild(label);
+    optionsElement.appendChild(document.createElement('br'));
+  });
+}
 
-    // Define the checkAnswer function
-    function checkAnswer() {
-        // Retrieve the selected answer
-        const selectedOption = document.querySelector('input[name="quiz"]:checked');
-        
-        // Check if an option is selected
-        if (!selectedOption) {
-            feedback.textContent = "Please select an answer!";
-            feedback.style.color = "orange";
-            return;
-        }
+// Function to check the user's answer
+function checkAnswer() {
+  const userAnswer = document.querySelector('input[name="answer"]:checked');
+  const feedbackElement = document.getElementById('feedback');
 
-        // Get the value of the selected answer
-        const userAnswer = selectedOption.value;
-
-        // Compare user's answer with the correct answer
-        if (userAnswer === correctAnswer) {
-            feedback.textContent = "Correct! Well done.";
-            feedback.style.color = "green";
-        } else {
-            feedback.textContent = "Incorrect. Try again!";
-            feedback.style.color = "red";
-        }
+  if (userAnswer) {
+    const correctAnswer = quizData[0].correctAnswer; // Assume we're checking the first question for now
+    if (userAnswer.value === correctAnswer) {
+      feedbackElement.textContent = 'That’s correct! Great job!';
+    } else {
+      feedbackElement.textContent = "That's incorrect. Try again!";
     }
+  } else {
+    feedbackElement.textContent = "Please select an answer before submitting.";
+  }
+}
 
-    // Add event listener to the submit button
-    submitButton.addEventListener('click', checkAnswer);
-});
+// Event listener for the "Submit Answer" button
+const submitButton = document.getElementById('submit-answer');
+submitButton.addEventListener('click', checkAnswer);
+
+// Example function to start the quiz
+function startQuiz() {
+  loadQuestion(0); // Load the first question
+}
+
+// Call startQuiz to initialize the quiz
+startQuiz();
