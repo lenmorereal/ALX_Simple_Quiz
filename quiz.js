@@ -1,66 +1,73 @@
-// Sample quiz data
+// Sample quiz data (could be expanded with more questions)
 const quizData = [
   {
-    question: "What is the capital of France?",
-    options: ["Berlin", "Madrid", "Paris", "Rome"],
-    correctAnswer: "Paris"
+    question: "What is 2 + 2?",
+    options: ["2", "4", "6", "8"],
+    correctAnswer: "4",
   },
   {
-    question: "Which planet is known as the Red Planet?",
-    options: ["Earth", "Mars", "Jupiter", "Saturn"],
-    correctAnswer: "Mars"
-  }
-  // Add more questions as needed
+    question: "What is the capital of France?",
+    options: ["London", "Berlin", "Paris", "Rome"],
+    correctAnswer: "Paris",
+  },
 ];
 
-// Function to load a question
-function loadQuestion(index) {
-  const questionData = quizData[index];
-  const questionElement = document.getElementById('question');
-  const optionsElement = document.getElementById('options');
+// Function to populate the quiz content into HTML
+function loadQuiz() {
+  const questionElement = document.getElementById("question");
+  const optionsElement = document.getElementById("options");
+  
+  const currentQuestion = quizData[0]; // Assuming we display the first question
 
-  questionElement.textContent = questionData.question;
-  optionsElement.innerHTML = '';
-
-  questionData.options.forEach((option, i) => {
-    const optionElement = document.createElement('input');
-    optionElement.type = 'radio';
-    optionElement.name = 'answer';
-    optionElement.value = option;
-    const label = document.createElement('label');
-    label.textContent = option;
+  questionElement.textContent = currentQuestion.question;
+  
+  // Clear previous options
+  optionsElement.innerHTML = "";
+  
+  // Create radio buttons for each option
+  currentQuestion.options.forEach((option, index) => {
+    const label = document.createElement("label");
+    const input = document.createElement("input");
     
-    optionsElement.appendChild(optionElement);
+    input.type = "radio";
+    input.name = "answer";
+    input.value = option;
+
+    label.appendChild(input);
+    label.appendChild(document.createTextNode(option));
+
     optionsElement.appendChild(label);
-    optionsElement.appendChild(document.createElement('br'));
+    optionsElement.appendChild(document.createElement("br"));
   });
 }
 
 // Function to check the user's answer
 function checkAnswer() {
+  const feedbackElement = document.getElementById("feedback");
+  const submitButton = document.getElementById("submit-answer");
+
+  // Retrieve the correct answer from the quiz data
+  const correctAnswer = quizData[0].correctAnswer;
+
+  // Retrieve the user's selected answer
   const userAnswer = document.querySelector('input[name="answer"]:checked');
-  const feedbackElement = document.getElementById('feedback');
 
   if (userAnswer) {
-    const correctAnswer = quizData[0].correctAnswer; // Assume we're checking the first question for now
     if (userAnswer.value === correctAnswer) {
       feedbackElement.textContent = 'That’s correct! Great job!';
     } else {
       feedbackElement.textContent = "That's incorrect. Try again!";
     }
   } else {
-    feedbackElement.textContent = "Please select an answer before submitting.";
+    feedbackElement.textContent = "Please select an answer!";
   }
+
+  // Optionally disable the submit button after submission
+  submitButton.disabled = true;
 }
 
-// Event listener for the "Submit Answer" button
-const submitButton = document.getElementById('submit-answer');
-submitButton.addEventListener('click', checkAnswer);
+// Add event listener to submit button
+document.getElementById("submit-answer").addEventListener("click", checkAnswer);
 
-// Example function to start the quiz
-function startQuiz() {
-  loadQuestion(0); // Load the first question
-}
-
-// Call startQuiz to initialize the quiz
-startQuiz();
+// Load the quiz when the page loads
+window.onload = loadQuiz;
