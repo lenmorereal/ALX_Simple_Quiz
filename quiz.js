@@ -25,8 +25,8 @@ function checkAnswer() {
   // Get the correct answer from the quiz data
   const correctAnswer = quizData[0].correctAnswer;
 
-  // Compare the user's answer with the correct answer and provide feedback
-  if (userAnswer.value === correctAnswer) {
+  // Correct comparison: Check if the value of the selected radio button matches the correct answer
+  if (userAnswer.value === correctAnswer) {  // Correct comparison
     feedbackElement.textContent = "That’s correct! Great job!";
   } else {
     feedbackElement.textContent = "That's incorrect. Try again!";
