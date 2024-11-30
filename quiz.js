@@ -1,73 +1,37 @@
-// Sample quiz data (could be expanded with more questions)
+// Quiz data
 const quizData = [
   {
     question: "What is 2 + 2?",
-    options: ["2", "4", "6", "8"],
-    correctAnswer: "4",
+    options: ["3", "4", "5"],
+    correctAnswer: "4",  // Correct answer
   },
-  {
-    question: "What is the capital of France?",
-    options: ["London", "Berlin", "Paris", "Rome"],
-    correctAnswer: "Paris",
-  },
+  // Add more questions here if needed
 ];
 
-// Function to populate the quiz content into HTML
-function loadQuiz() {
-  const questionElement = document.getElementById("question");
-  const optionsElement = document.getElementById("options");
-  
-  const currentQuestion = quizData[0]; // Assuming we display the first question
-
-  questionElement.textContent = currentQuestion.question;
-  
-  // Clear previous options
-  optionsElement.innerHTML = "";
-  
-  // Create radio buttons for each option
-  currentQuestion.options.forEach((option, index) => {
-    const label = document.createElement("label");
-    const input = document.createElement("input");
-    
-    input.type = "radio";
-    input.name = "answer";
-    input.value = option;
-
-    label.appendChild(input);
-    label.appendChild(document.createTextNode(option));
-
-    optionsElement.appendChild(label);
-    optionsElement.appendChild(document.createElement("br"));
-  });
-}
-
-// Function to check the user's answer
+// Function to check the answer
 function checkAnswer() {
-  const feedbackElement = document.getElementById("feedback");
-  const submitButton = document.getElementById("submit-answer");
-
-  // Retrieve the correct answer from the quiz data
-  const correctAnswer = quizData[0].correctAnswer;
-
-  // Retrieve the user's selected answer
+  // Get the user's selected answer
   const userAnswer = document.querySelector('input[name="answer"]:checked');
+  
+  // Get the feedback element to display results
+  const feedbackElement = document.getElementById("feedback");
 
-  if (userAnswer) {
-    if (userAnswer.value === correctAnswer) {
-      feedbackElement.textContent = 'That’s correct! Great job!';
-    } else {
-      feedbackElement.textContent = "That's incorrect. Try again!";
-    }
-  } else {
+  // Check if the user has selected an answer
+  if (!userAnswer) {
     feedbackElement.textContent = "Please select an answer!";
+    return;
   }
 
-  // Optionally disable the submit button after submission
-  submitButton.disabled = true;
+  // Get the correct answer from the quiz data
+  const correctAnswer = quizData[0].correctAnswer;
+
+  // Compare the user's answer with the correct answer and provide feedback
+  if (userAnswer.value === correctAnswer) {
+    feedbackElement.textContent = "That’s correct! Great job!";
+  } else {
+    feedbackElement.textContent = "That's incorrect. Try again!";
+  }
 }
 
-// Add event listener to submit button
+// Add event listener to the submit button
 document.getElementById("submit-answer").addEventListener("click", checkAnswer);
-
-// Load the quiz when the page loads
-window.onload = loadQuiz;
