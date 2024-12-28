@@ -26,6 +26,12 @@ function checkAnswer() {
   const correctAnswer = quizData[0].correctAnswer;
 
   // Correct comparison: Check if the value of the selected radio button matches the correct answer
+  if (userAnswer === correctAnswer) {
+    console.log("Correct!");
+} else {
+    console.log("Try again!");
+}
+
   if (userAnswer.value === correctAnswer) {  // Correct comparison
     feedbackElement.textContent = "That’s correct! Great job!";
   } else {
