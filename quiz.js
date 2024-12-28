@@ -15,6 +15,11 @@ function checkAnswer() {
   
   // Get the feedback element to display results
   const feedbackElement = document.getElementById("feedback");
+if (userAnswer === correctAnswer) {
+    console.log("Correct! Well done.");
+} else {
+    console.log("Incorrect. Try again.");
+}
 
   // Check if the user has selected an answer
   if (!userAnswer) {
